@@ -1,22 +1,8 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 from IPython.display import display
 
-# Instanciando os serviços e repositórios
-# legislator_service = LegislatorService()
-# bills_service = BillsService()
-
-# # Escrevendo os resultados nos arquivos CSV
-# WriteCsv.write_bills_votes(bills_votes)
-# WriteCsv.write_legislators_sup_opp(legislator_votes)
-
-# # Processando os dados
-# legislator_votes = legislator_service.count_bills_votes()
-# bills_votes = bills_service.count_legislator_votes()
-
-
-# Exibindo os resultados
-print("Resultados salvos nos arquivos bills_votes.csv e legislators_sup_opp.csv.")
+# show results
+print("Saved results into files bills_votes.csv e legislators_sup_opp.csv.")
 
 bills = pd.read_csv("bills.csv")
 legislator = pd.read_csv("legislators.csv")
@@ -52,7 +38,7 @@ votes_per_legislator_per_bill = pd.merge(
     suffixes=('', '_y')
 )
 del votes_per_legislator_per_bill['id_y']
-# Adicionando o primary sponsor
+# Adding o primary sponsor
 votes_per_legislator_per_bill = pd.merge(
     votes_per_legislator_per_bill,
     legislator,
@@ -65,28 +51,25 @@ del votes_per_legislator_per_bill['id_y']
 votes_per_legislator_per_bill.rename(columns={"name_y": "Primary sponsor"}, inplace=True)
 
 
+# Question 1. For every legislator in the dataset, how many bills did the legislator support(voted for the bill)? How many bills did the legislator oppose?
 
-
-
-# Question 1. Qual bill cada legislator votou?
-# CONSIDERANDO UM legislator QUALQUER
 votes_per_legislator_per_bill.loc[:, "Supported bills"] = (votes_per_legislator_per_bill.vote_type == 1).astype(int)
 votes_per_legislator_per_bill.loc[:, "Opposed bills"] = (votes_per_legislator_per_bill.vote_type == 2).astype(int)
-dados_agrupados = votes_per_legislator_per_bill[['name', 'Supported bills', 'Opposed bills']].groupby(["name"]).sum().reset_index()
-dados_agrupados.rename(columns={"name": "Legislator"}, inplace=True)
+group_data = votes_per_legislator_per_bill[['name','Supported bills', 'Opposed bills']].groupby(["name"]).sum().reset_index()
+group_data.rename(columns={"name": "Legislator"}, inplace=True)
 
-legislator = dados_agrupados.Legislator.values[5]
-display(dados_agrupados[dados_agrupados.Legislator == legislator])
+display(group_data)
 
-# Question 2. Para cada bill, quantos legislators apoiaram e quantos se opuseram. Quem foi o primary sponsor
+
+# Question 2. For every bill in the data set, how many legislators supported the bill? How many legislators opposed the bill? Who was the primary sponsor of the bill?
 votes_per_legislator_per_bill.loc[:, "Supporters"] = (votes_per_legislator_per_bill.vote_type == 1).astype(int)
 votes_per_legislator_per_bill.loc[:, "Opposers"] = (votes_per_legislator_per_bill.vote_type == 2).astype(int)
-dados_agrupados = votes_per_legislator_per_bill[['title', 'Supporters', 'Opposers', 'Primary sponsor']].groupby('title').agg(
+group_data = votes_per_legislator_per_bill[['title', 'Supporters', 'Opposers', 'Primary sponsor']].groupby('title').agg(
     Supporters=('Supporters', 'sum'),
     Opposers=('Opposers', 'sum'),
     Primary=('Primary sponsor', 'first')
 ).reset_index()
 
-dados_agrupados.rename(columns={'title': 'Bill', 'Primary': 'Primary sponsor'}, inplace=True)
-bill = dados_agrupados.Bill.values[0]
-display(dados_agrupados[dados_agrupados.Bill == bill])
+group_data.rename(columns={'title': 'Bill', 'Primary': 'Primary sponsor'}, inplace=True)
+
+display(group_data)
