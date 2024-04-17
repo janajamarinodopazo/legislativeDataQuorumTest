@@ -8,9 +8,8 @@
 1. Time Complexity: The strategy involves merging the CSV files to create a comprehensive DataFrame, which can have a time complexity of O(n*m), where n is the number of rows in the largest CSV file and m is the number of CSV files. The subsequent operations, such as grouping and aggregating, have a time complexity of O(n), where n is the number of rows in the DataFrame.
 
 2. Effort Cost: The implementation uses pandas for data manipulation, which simplifies the code and reduces development effort. However, ensuring the correctness and efficiency of the data processing steps requires careful planning and testing.
- - Technologies Used:  Python was used along with pandas for data processing and manipulation and IPython.display was used for displaying the results.
-
- - Considering scalability and maintainability, the code is structured in a modular way, separating data loading, processing, and result display into distinct steps. This allows for easier future modifications or additions. 
+   - Technologies Used:  Python was used along with pandas for data processing and manipulation and IPython.display was used for displaying the results.
+   - Considering scalability and maintainability, the code is structured in a modular way, separating data loading, processing, and result display into distinct steps. This allows for easier future modifications or additions. 
 I'd prefer separate this in distinct paths but as I strugled issues to run python in my machine in a first momet, I choose do not spend mor time at this momeent.
 
 2. Future Columns:
