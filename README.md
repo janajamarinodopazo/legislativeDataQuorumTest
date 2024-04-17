@@ -34,7 +34,7 @@ Python 3.10.13
 Installation
 Clone the repository from GitHub:
 ```bash
-git clone 
+git clone https://github.com/janajamarinodopazo/legislativeDataQuorumTest.git
 ```
 Install pandas
 
